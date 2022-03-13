@@ -1,9 +1,14 @@
-public abstract class Piece {
+package Tools;
+
+import Component.Board;
+import Component.Spot;
+
+public abstract class Tool {
 
     private boolean killed = false;
     private boolean white = false;
 
-    public Piece(boolean white)
+    public Tool(boolean white)
     {
         this.setWhite(white);
     }
@@ -28,6 +33,5 @@ public abstract class Piece {
         this.killed = killed;
     }
 
-    public abstract boolean canMove(Board board,
-                                    Spot start, Spot end);
+    public abstract boolean canMove(Board board, Spot start, Spot end);
 }

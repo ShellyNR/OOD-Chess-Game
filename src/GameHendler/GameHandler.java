@@ -1,3 +1,7 @@
+package GameHendler;
+
+import Component.Board;
+
 public interface GameHandler {
 
     public boolean is_winning();
