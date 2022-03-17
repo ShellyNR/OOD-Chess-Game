@@ -5,33 +5,20 @@ import Component.Spot;
 
 public abstract class Tool {
 
-    private boolean killed = false;
-    private boolean white = false;
+    private boolean isWhite;
 
-    public Tool(boolean white)
+    public Tool(boolean isWhite)
     {
-        this.setWhite(white);
+        this.isWhite = isWhite;
     }
 
     public boolean isWhite()
     {
-        return this.white;
-    }
-
-    public void setWhite(boolean white)
-    {
-        this.white = white;
-    }
-
-    public boolean isKilled()
-    {
-        return this.killed;
-    }
-
-    public void setKilled(boolean killed)
-    {
-        this.killed = killed;
+        return this.isWhite;
     }
 
     public abstract boolean canMove(Board board, Spot start, Spot end);
+
+    public abstract String toString();
+
 }

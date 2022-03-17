@@ -1,5 +1,6 @@
 package Game;
 
+import Component.Board;
 import Quiz.*;
 
 import java.util.ArrayList;
@@ -10,15 +11,25 @@ public class QuizGame implements Game{
 
     private List<Quiz> quizzesList;
 
+
     public QuizGame() {
-        this.quizzesList = new ArrayList<>();
-        this.quizzesList.add(new learnHowBishopEat());
-        this.quizzesList.add(new winInThreeMoves());
+        this.quizzesList = getQuizzesList();
+
+
+    }
+
+    public List<Quiz> getQuizzesList() {
+        List<Quiz> listQ = new ArrayList<>();
+        listQ.add(new learnHowBishopEat());
+        listQ.add(new winInThreeMoves());
+        return listQ;
     }
 
     @Override
     public void runGame() {
         Quiz quiz = generateQuiz();
+        Board board = new Board(quiz.getInitState());
+
     }
 
     public Quiz generateQuiz(){

@@ -13,4 +13,18 @@ public class Spot {
         this.x = x;
         this.y = y;
     }
+
+    public Tool getTool() {
+        return tool;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+
 }

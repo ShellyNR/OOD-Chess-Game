@@ -16,7 +16,7 @@ public class common {
         toolsCache.put("RookB", new Rook(false));
         toolsCache.put("BishopW", new Bishop(true));
         toolsCache.put("BishopB", new Bishop(false));
-        toolsCache.put("KnightW", new Knight(true));
+        toolsCache.put("KnightW", new Knight(true)); // is n in char[][]
         toolsCache.put("KnightB", new Knight(false));
         toolsCache.put("PawnW", new Pawn(true));
         toolsCache.put("PawnB", new Pawn(false));
