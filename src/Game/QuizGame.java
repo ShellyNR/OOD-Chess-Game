@@ -15,7 +15,6 @@ public class QuizGame implements Game{
     public QuizGame() {
         this.quizzesList = getQuizzesList();
 
-
     }
 
     public List<Quiz> getQuizzesList() {

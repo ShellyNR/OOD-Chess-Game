@@ -1,33 +1,48 @@
 package Game;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Hashtable;
 
-public class GameManager {
+public class GameManager implements MenuListener {
 
 
-    private List<Game> listGamesOptions;
+    //private List<Game> listGamesOptions;
+    private Hashtable<String, Game> listGamesOptions;
     private Game game;
-    private UIGameManager UIGameManager;
+    private UIGameMenu UIGameManager;
 
-    public GameManager(){
-        listGamesOptions = new ArrayList<Game>();
-        listGamesOptions.add(new QuizGame());
+    public GameManager(UIGameMenu UIGameManager){
 
+        listGamesOptions = new Hashtable<String, Game>();
+        listGamesOptions.put("Quiz Game", new QuizGame());
+        listGamesOptions.put("Regular Game", new RegularGame());
+        listGamesOptions.put("Game Test", new GameTest());
+
+        this.UIGameManager = UIGameManager;
+        this.UIGameManager.addMenuListener(this);
 
     }
-
-    public List<Game> GetGameOptionsList(){
+    public Hashtable<String, Game> GetGameOptionsList(){
         return listGamesOptions;
     }
 
     public void ShowOptionsAndList(boolean white){
-        for
 
     }
 
     public void createGame(){
+        this.UIGameManager.show(this.listGamesOptions.keySet());
+    }
 
+
+    @Override
+    public void notify(String s) {
+        this.listGamesOptions.get(s).runGame();
+    }
+
+    public static void main(String[] args){
+        UIGameMenu UIGameManager = new UIGameMenuJFrame();
+        GameManager GM = new GameManager(UIGameManager);
+        GM.createGame();
     }
 
 }

@@ -13,6 +13,11 @@ public class RegularGame implements Game{
     private List<Player> playersList;
     private Board initBoard;
 
+    public RegularGame() {
+
+
+    }
+
 
     public RegularGame(List<Player> playersList) {
         this.initBoard = new Board(); // create defualt board
