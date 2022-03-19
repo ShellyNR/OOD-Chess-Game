@@ -117,6 +117,9 @@ public abstract class GameHandler {
     }
 
     public boolean moveValidation(Move move){
+        if(move == null){
+            return false;
+        }
         return checkMove(move);
     }
 
@@ -125,10 +128,10 @@ public abstract class GameHandler {
             Move move = getPlayerTurn(this.turn).getNextMove();
             if(moveValidation(move)){
                 board.updateBoardByMove(move);
+                updateTurn();
             }else{
-                System.out.println("Wrong Move");
+                System.out.println("Wrong Move, try again");
             }
-            updateTurn();
         }
         System.out.println("GAME OVER! Player " + (this.turn + 1) + " win!!");
     }
