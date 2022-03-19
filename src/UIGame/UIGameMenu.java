@@ -1,4 +1,5 @@
-package Game;
+package BoardUI;
+import javax.swing.event.MenuListener;
 import java.util.Set;
 
 public interface UIGameMenu {

@@ -1,5 +1,7 @@
-package Game;
+package BoardUI;
 
+
+import Game.UIGameMenu;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +10,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
+import javax.swing.event.MenuListener;
 import java.util.Set;
 
 public class UIGameMenuJFrame extends JFrame implements UIGameMenu, ActionListener{
