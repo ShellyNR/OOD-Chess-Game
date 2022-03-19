@@ -15,18 +15,26 @@ public class HumanForQuizPlayer extends HumanPlayer{
         this.moveIndex = 0;
     }
 
+
     @Override
-    public Move getNextMoveByList(){
+    public Move getNextMove() {
+        Move moveFromUI = super.getNextMove();
+
         if (this.moveIndex == -1) {
             return null; // finish game, no more moves left
         }
-        Move move = this.moveList.get(this.moveIndex);
+        Move moveFromList = this.moveList.get(this.moveIndex);
         this.moveIndex = this.moveIndex + 1;
         if (this.moveIndex == this.moveList.size()) {
             this.moveIndex = -1;
         }
-        return move;
-    }
 
+        if ((moveFromUI.getStart().isEqual(moveFromList.getStart())) &&
+            (moveFromUI.getStart().isEqual(moveFromList.getEnd()))){
+            return moveFromUI;
+        }
+        return null;
+
+    }
 
 }

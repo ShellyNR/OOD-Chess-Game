@@ -24,11 +24,4 @@ public abstract class Player {
         return this.isHumanPlayer;
     }
 
-
-    public Move getNextMoveByList() {
-        System.out.println("Wrong! regular Human Player");
-        return null;
-
-    }
-
 }
