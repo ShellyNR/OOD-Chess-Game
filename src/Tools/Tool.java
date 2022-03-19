@@ -1,6 +1,7 @@
 package Tools;
 
 import Component.Board;
+import Component.Move;
 import Component.Spot;
 
 public abstract class Tool {
@@ -17,8 +18,18 @@ public abstract class Tool {
         return this.isWhite;
     }
 
-    public abstract boolean canMove(Board board, Spot start, Spot end);
+    public abstract boolean canMove(Move move);
 
-    public abstract String toString();
+    public abstract EnumTool getType();
+
+    public boolean isKnight(){
+        EnumTool et = this.getType();
+        return (et == EnumTool.KnightW || et == EnumTool.KnightB);
+    }
+
+    public boolean isKing(){
+        EnumTool et = this.getType();
+        return (et == EnumTool.KingW || et == EnumTool.KingB);
+    }
 
 }

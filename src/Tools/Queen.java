@@ -1,6 +1,7 @@
 package Tools;
 
 import Component.Board;
+import Component.Move;
 import Component.Spot;
 
 public class Queen extends Tool  {
@@ -11,28 +12,12 @@ public class Queen extends Tool  {
     }
 
     @Override
-    public boolean canMove(Board board, Spot start, Spot end) {
-
-        // end is not an empty spot
-        // end's tool can't have the same color tool as start's tool
-        if (! end.getTool().toString().equals("Empty")) {
-            if (end.getTool().isWhite() == this.isWhite()) {
-                return false;
-            }
-        }
-
-        String finColor = "B";
-        if(start.getTool().isWhite()){
-            finColor = "W";
-        }
-        if((common.toolsCache.get("Bishop"+ finColor).canMove(board,start,end)) || (common.toolsCache.get("Rook" + finColor).canMove(board,start,end))) {
-            return true;
-        }
-        return false;
+    public boolean canMove(Move move) {
+        return move.isInTheSameDiagonal() || move.isInTheSameRow() || move.isInTheSameColumn();
     }
 
     @Override
-    public String toString() {
-        return "Queen";
+    public EnumTool getType() {
+        return this.isWhite()? EnumTool.QueenW : EnumTool.QueenB;
     }
 }

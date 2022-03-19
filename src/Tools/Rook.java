@@ -1,6 +1,7 @@
 package Tools;
 
 import Component.Board;
+import Component.Move;
 import Component.Spot;
 
 public class Rook extends Tool{
@@ -11,23 +12,14 @@ public class Rook extends Tool{
     }
 
     @Override
-    public boolean canMove(Board board, Spot start, Spot end) {
-        // end is not an empty spot
-        // end's tool can't have the same color tool as start's tool
-        if (! end.getTool().toString().equals("Empty")) {
-            if (end.getTool().isWhite() == this.isWhite()) {
-                return false;
-            }
-        }
-
-
-
-
-        return false;
+    public boolean canMove(Move move) {
+        return move.isInTheSameRow() || move.isInTheSameColumn();
     }
 
     @Override
-    public String toString() {
-        return "Rook";
+    public EnumTool getType() {
+        return this.isWhite()? EnumTool.RookW : EnumTool.RookB;
     }
+
+
 }

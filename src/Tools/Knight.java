@@ -1,6 +1,7 @@
 package Tools;
 
 import Component.Board;
+import Component.Move;
 import Component.Spot;
 
 public class Knight extends Tool {
@@ -11,23 +12,15 @@ public class Knight extends Tool {
     }
 
     @Override
-    public boolean canMove(Board board, Spot start, Spot end)
+    public boolean canMove(Move move)
     {
-        // end is not an empty spot
-        // end's tool can't have the same color tool as start's tool
-        if (! end.getTool().toString().equals("Empty")) {
-            if (end.getTool().isWhite() == this.isWhite()) {
-                return false;
-            }
-        }
-
-        int x = Math.abs(start.getX() - end.getX());
-        int y = Math.abs(start.getY() - end.getY());
+        int x = Math.abs(move.getStart().getX() - move.getEnd().getX());
+        int y = Math.abs(move.getStart().getY() - move.getEnd().getY());
         return x * y == 2; // 1,2 / 2,1
     }
 
     @Override
-    public String toString() {
-        return "Knight";
+    public EnumTool getType() {
+        return this.isWhite()? EnumTool.KnightW : EnumTool.KnightB;
     }
 }
