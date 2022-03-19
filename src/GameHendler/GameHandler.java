@@ -9,6 +9,7 @@ import java.util.List;
 
 public abstract class GameHandler {
 
+    private GameStatus status;
     public Board board;
     private List<Player> playersList;
     private int turn;
@@ -23,6 +24,7 @@ public abstract class GameHandler {
         }else{
             this.turn = 1;
         }
+        this.status = GameStatus.ACTIVE;
     }
 
 
@@ -34,8 +36,23 @@ public abstract class GameHandler {
         Spot kingSpotB = board.getKingSpotByColor(false);
         boolean ansB = checkIfKingIsUnderThreat(kingSpotB);
 
-        return ansW || ansB;
+        if(ansW){
+            setStatus(GameStatus.BLACK_WIN);
+            return true;
+        }
+        if(ansB){
+            setStatus(GameStatus.WHITE_WIN);
+            return true;
+        }
+        return false;
+    }
 
+    public void setStatus(GameStatus status) {
+        this.status = status;
+    }
+
+    public GameStatus getStatus() {
+        return status;
     }
 
     public void updateTurn(){
@@ -133,7 +150,16 @@ public abstract class GameHandler {
                 System.out.println("Wrong Move, try again");
             }
         }
-        System.out.println("GAME OVER! Player " + (this.turn + 1) + " win!!");
+        declareWinner();
+    }
+
+    public void declareWinner(){
+        if(getStatus() == GameStatus.WHITE_WIN){
+            System.out.println("GAME OVER! the white player win!!");
+        }
+        if(getStatus() == GameStatus.BLACK_WIN){
+            System.out.println("GAME OVER! the black player win!!");
+        }
     }
 
     public Board getBoard() {
