@@ -74,4 +74,10 @@ public class learnHowBishopEat implements Quiz {
         return moveList;
     }
 
+    @Override
+    public String toString(){
+        return "Bishop eat";
+    }
+
+
 }

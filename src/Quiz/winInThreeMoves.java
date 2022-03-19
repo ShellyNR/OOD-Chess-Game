@@ -2,6 +2,7 @@ package Quiz;
 
 import Component.Move;
 import Component.Spot;
+import Tools.EnumTool;
 import Tools.common;
 
 import java.util.ArrayList;
@@ -69,9 +70,14 @@ public class winInThreeMoves implements Quiz{
     @Override
     public List<Move> setComputerMovesForSolveQuiz() {
         List<Move> moveList = new ArrayList<>();
-        moveList.add(new Move(new Spot(0,6, common.toolsCache.get("KingB")),new Spot(0,7, common.toolsCache.get("KingB"))));
-        moveList.add(new Move(new Spot(4,3, common.toolsCache.get("BishopB")),new Spot(2,5, common.toolsCache.get("BishopB"))));
+        moveList.add(new Move(new Spot(0,6, common.toolsCache.get(EnumTool.KingB)),new Spot(0,7, common.toolsCache.get(EnumTool.KingB))));
+        moveList.add(new Move(new Spot(4,3, common.toolsCache.get(EnumTool.BishopB)),new Spot(2,5, common.toolsCache.get(EnumTool.BishopB))));
         return moveList;
+    }
+
+    @Override
+    public String toString(){
+        return "Win in three moves";
     }
 
 

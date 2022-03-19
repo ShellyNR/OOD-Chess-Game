@@ -14,7 +14,6 @@ public interface Quiz {
     public List<Move> getComputerMovesForSolveQuiz();
     public boolean isPlayerStart();
     public boolean isPlayerWhite();
-
-
+    public String toString();
 
 }
