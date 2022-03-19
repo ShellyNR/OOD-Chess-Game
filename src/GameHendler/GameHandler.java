@@ -2,51 +2,152 @@ package GameHendler;
 
 import Component.Board;
 import Component.Move;
+import Component.Spot;
 import Player.Player;
 
 import java.util.List;
 
 public abstract class GameHandler {
 
-    private Board board;
+    public Board board;
     private List<Player> playersList;
     private int turn;
     private int playersNumber;
 
-    public abstract boolean haveAWinner();
+    public GameHandler(Board board, List<Player> playersList, boolean isFirstStart) {
+        this.board = board;
+        this.playersList = playersList;
+        this.playersNumber = playersList.size();
+        if(isFirstStart){
+            this.turn = 0;
+        }else{
+            this.turn = 1;
+        }
+    }
 
-    boolean isTurn(int index){
+
+    public boolean haveAWinner(){
+        // white
+        Spot kingSpotW = board.getKingSpotByColor(true);
+        boolean ansW = checkIfKingIsUnderThreat(kingSpotW);
+        // black
+        Spot kingSpotB = board.getKingSpotByColor(false);
+        boolean ansB = checkIfKingIsUnderThreat(kingSpotB);
+
+        return ansW || ansB;
+
+    }
+
+    public void updateTurn(){
+        this.turn =  (getTurn() + 1 ) % getPlayersNumber();
+    }
+
+    public boolean isTurn(int index){
         return (index == this.turn);
     }
 
-    public boolean moveValidationReq(Move move){
+    public Player getPlayerTurn(int index){
+        return this.playersList.get(index);
+    }
 
-        //play with empty "tool"
-        if(move.getStart().getTool().toString().equals("Empty")){
-            return false;
-        }
-
-        // play with the "wrong" color
-        if(playersList.get(turn).isWhiteSide()){ //player is white
-            if(!move.getStart().getTool().isWhite()){ // tool is black
-                return false;
+    public boolean checkIfKingIsUnderThreat(Spot kingSpot){
+        for(int i=0; i < Board.LENGTH; i++){
+            for(int j = 0; j < Board.LENGTH; j++){
+                Spot s = board.getSpot(i, j);
+                if (s.getTool().isWhite() != kingSpot.getTool().isWhite()){
+                    Move tempMove = new Move(s, kingSpot);
+                    if ((tempMove.getStart().getTool().isKnight() || this.board.isFreeBetween(tempMove)) && tempMove.getStart().getTool().canMove(tempMove)) {
+                        board.undo();
+                        return true;
+                    }
+                }
             }
-        }
-
-        // end spot in board
-        int x = move.getEnd().getX();
-        int y = move.getEnd().getY();
-
-        if((0 <= x) && (x <= 7)){
-            if((0 <= y) && (y <= 7)){
-                return true;
-             }
         }
         return false;
     }
 
-    public abstract Board makeMove(Board board, Move move);
+    public boolean willKingbeUnderThreat(Move move) {
+        board.updateBoardByMove(move);
+        Spot kingSpot = board.getKingSpotByColor(playersList.get(turn).isWhite());
+        boolean ans = checkIfKingIsUnderThreat(kingSpot);
+        board.undo();
+        return ans;
+    }
 
-    public  abstract void handleGame();
+    public boolean checkMove(Move move){
+
+        //play with empty "tool"
+        if (move.getStart().isEmpty()){
+            return false;
+        }
+
+        // staying in the same spot
+        if (move.getStart().isEqual(move.getEnd())){
+            return false;
+        }
+
+        // play with the "wrong" color
+        if (!(playersList.get(turn).isWhite() == move.getStart().getTool().isWhite())){
+                return false;
+        }
+
+        // "change" tool in during the move
+        if (move.getStart().getTool() != move.getEnd().getTool()){
+                return false;
+        }
+
+        // end is not an empty spot
+        // end's tool can't have the same color tool as start's tool
+        if (! move.getEnd().isEmpty()) {
+            if (move.getEnd().getTool().isWhite() == move.getStart().getTool().isWhite()) {
+                return false;
+            }
+        }
+
+        if (!(move.getEnd().isInBoard() && move.getStart().isInBoard())){
+            return false;
+        }
+
+
+        if (!((move.getStart().getTool().isKnight() || this.board.isFreeBetween(move)) && willKingbeUnderThreat(move) && move.getStart().getTool().canMove(move))){
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean moveValidation(Move move){
+        return checkMove(move);
+    }
+
+    public void handleGame(){
+        while(!haveAWinner()){
+            Move move = getPlayerTurn(this.turn).getNextMove();
+            if(moveValidation(move)){
+                board.updateBoardByMove(move);
+            }else{
+                System.out.println("Wrong Move");
+            }
+            updateTurn();
+        }
+        System.out.println("GAME OVER! Player " + (this.turn + 1) + " win!!");
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public List<Player> getPlayersList() {
+        return playersList;
+    }
+
+    public int getTurn() {
+        return this.turn;
+    }
+
+    public int getPlayersNumber() {
+        return playersNumber;
+    }
+
 
 }
