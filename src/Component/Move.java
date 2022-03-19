@@ -21,4 +21,18 @@ public class Move {
         this.end = end;
     }
 
+    public boolean isInTheSameRow(){
+        return start.getX() == end.getX();
+    }
+
+    public boolean isInTheSameColumn(){
+        return start.getY() == end.getY();
+    }
+
+    public boolean isInTheSameDiagonal(){
+        int x = Math.abs(start.getX() - end.getX());
+        int y = Math.abs(start.getY() - end.getY());
+        return x == y;
+    }
+
 }
