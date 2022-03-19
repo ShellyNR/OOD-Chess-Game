@@ -1,4 +1,4 @@
-package GameHendler;
+package GameHandler;
 
 import Component.Board;
 import Component.Move;
