@@ -1,11 +1,7 @@
 package Game;
 
 import BoardUI.UIBoard;
-import Component.Board;
-import FamousPlay.FamousPlay;
-import GameHendler.GameHandler;
 import Player.Player;
-import Quiz.Quiz;
 
 import java.util.List;
 

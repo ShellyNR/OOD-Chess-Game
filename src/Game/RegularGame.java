@@ -2,7 +2,7 @@ package Game;
 
 import Component.Board;
 import Player.*;
-import GameHendler.*;
+import GameHandler.*;
 import BoardUI.UIBoard;
 
 import java.util.ArrayList;

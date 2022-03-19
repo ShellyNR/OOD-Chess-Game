@@ -2,7 +2,7 @@ package Game;
 
 import BoardUI.UIBoard;
 import Component.*;
-import GameHendler.*;
+import GameHandler.*;
 import Player.*;
 import Quiz.*;
 

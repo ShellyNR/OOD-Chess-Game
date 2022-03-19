@@ -3,9 +3,8 @@ package Game;
 import BoardUI.UIBoard;
 import Component.Board;
 import FamousPlay.*;
-import GameHendler.*;
+import GameHandler.*;
 import Player.*;
-import Quiz.Quiz;
 
 import java.util.ArrayList;
 import java.util.List;
