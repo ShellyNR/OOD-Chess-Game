@@ -1,9 +1,9 @@
 package Game;
 
+import BoardUI.UIBoard;
 import Component.Board;
 import Player.*;
-import GameHandler.*;
-import BoardUI.UIBoard;
+import GameHandler.GameHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,13 +14,26 @@ public class RegularGame implements Game{
     private List<Player> playersList;
     private Board initBoard;
     private UIBoard UIb;
+    private static RegularGame single_instance = null;
 
 
-    public RegularGame() {
+    private RegularGame(){
+        List<Player> playersList = new ArrayList<>();
+        playersList.add(new HumanPlayer(true));
+        playersList.add(new HumanPlayer(false));
+        this.playersList = playersList;
+
         this.initBoard = new Board(); // create defualt board
-        this.playersList = createPlayersList();
-        this.gameHendler = new RegularGameHandler(this.playersList,this.initBoard);
+        this.playersList = playersList;
+    }
 
+    public static RegularGame RegularGame()
+    {
+        // To ensure only one instance is created
+        if (single_instance == null) {
+            single_instance = new RegularGame();
+        }
+        return single_instance;
     }
 
     @Override
@@ -28,20 +41,18 @@ public class RegularGame implements Game{
         this.UIb = UIB;
     }
 
-    public List<Player> createPlayersList() {
-        List<Player> playersList = new ArrayList<>();
-        playersList.add(new HumanPlayer(true));
-        playersList.add(new HumanPlayer(false));
-        return playersList;
+    @Override
+    public List<Player> getPlayersList() {
+        return this.playersList;
     }
-
-    public String toString(){
-        return "Regular game";
-    }
-
+    @Override
     public void runGame() {
         this.gameHendler.handleGame();
     }
 
+    @Override
+    public String toString(){
+        return "Regular game";
+    }
 
 }
