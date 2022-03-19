@@ -1,6 +1,7 @@
 package Tools;
 
 import Component.Board;
+import Component.Move;
 import Component.Spot;
 import Component.Spot;
 
@@ -11,22 +12,12 @@ public class Bishop extends Tool {
     }
 
     @Override
-    public boolean canMove(Board board, Spot start, Spot end) {
-        // end is not an empty spot
-        // end's tool can't have the same color tool as start's tool
-        if (! end.getTool().toString().equals("Empty")) {
-            if (end.getTool().isWhite() == this.isWhite()) {
-                return false;
-            }
-        }
-
-
-
-        return false;
+    public boolean canMove(Move move) {
+        return move.isInTheSameDiagonal();
     }
 
     @Override
-    public String toString() {
-        return "Bishop";
+    public EnumTool getType() {
+        return this.isWhite()? EnumTool.BishopW : EnumTool.BishopB;
     }
 }
