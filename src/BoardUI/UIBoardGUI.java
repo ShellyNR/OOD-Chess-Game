@@ -23,6 +23,7 @@ public class UIBoardGUI extends JFrame implements UIBoard, MouseListener {
     private final JLabel message = new JLabel(
             "Chess Champ is ready to play!");
     private Spot[][] currentPositionS;
+    private Spot[][] pastPositionS;
     private static final String COLS = "ABCDEFGH";
     public Hashtable<String, Integer> map;
     public Move currentMove;
@@ -45,11 +46,12 @@ public class UIBoardGUI extends JFrame implements UIBoard, MouseListener {
 
     }
 
+    private int n = 0;
+
     @Override
     public void show(Spot[][] currentPosition) {
         this.currentPositionS = currentPosition;
-        this.setupNewGame();
-        //initializeGui();
+        this.setupGame();
     }
 
     public final void initialize() {
@@ -229,14 +231,31 @@ public class UIBoardGUI extends JFrame implements UIBoard, MouseListener {
                 if (this.currentPositionS[i][j].getTool().isWhite() == true) {
                     chessBoardSquares[j][i].setIcon(new ImageIcon(
                             chessPieceImages[WHITE][this.map.get(tool.toString())]));
-                    chessBoardSquares[j][i].setName(tool.toString() + "W");
                 } else {
                     chessBoardSquares[j][i].setIcon(new ImageIcon(
                             chessPieceImages[BLACK][this.map.get(tool.toString())]));
-                    chessBoardSquares[j][i].setName(tool.toString() + "B");
                 }
+                chessBoardSquares[j][i].setName(tool.toString());
             }
         }
+        //this.pastPositionS = this.currentPositionS.clone();
+    }
+    private final void setupGame(){
+        if (this.currentMove == null) return;
+        int x = this.currentMove.getStart().getY();
+        int y = this.currentMove.getStart().getX();
+        Tool tool = this.currentMove.getStart().getTool();
+        chessBoardSquares[x][y].setIcon(null);
+        int xe = this.currentMove.getEnd().getY();
+        int ye = this.currentMove.getEnd().getX();
+        if (this.currentMove.getStart().getTool().isWhite() == true) {
+            chessBoardSquares[xe][ye].setIcon(new ImageIcon(
+                    chessPieceImages[WHITE][this.map.get(tool.toString())]));
+        } else {
+            chessBoardSquares[xe][ye].setIcon(new ImageIcon(
+                    chessPieceImages[BLACK][this.map.get(tool.toString())]));
+        }
+        chessBoardSquares[xe][ye].setName(tool.toString());
     }
 
     private JButton chessPiece;
@@ -258,7 +277,6 @@ public class UIBoardGUI extends JFrame implements UIBoard, MouseListener {
         if(System.currentTimeMillis() < lastclick + 20) return;
         lastclick = System.currentTimeMillis();
         if (this.count == 0) {
-            System.out.println("first");
             chessPiece = null;
             Component c = e.getComponent();
             if (!(c instanceof JButton)) return;
@@ -267,13 +285,10 @@ public class UIBoardGUI extends JFrame implements UIBoard, MouseListener {
             int h=chessPiece.getSize().height;
             int x = chessPiece.getX() / w - 1;
             int y = chessPiece.getY() / h - 1;
-            System.out.println(x);
-            System.out.println(y);
 
             this.currentMove = new Move(new Spot(y, x, this.currentPositionS[y][x].getTool()));
             this.count = 1;
         } else if (this.count == 1) {
-            System.out.println("second");
             if (chessPiece == null) return;
             Component c = e.getComponent();
             chessPiece = (JButton) c;
@@ -281,8 +296,6 @@ public class UIBoardGUI extends JFrame implements UIBoard, MouseListener {
             int h=chessPiece.getSize().height;
             int x = chessPiece.getX() / w - 1;
             int y = chessPiece.getY() / h - 1;
-            System.out.println(x);
-            System.out.println(y);
             this.currentMove.setEnd(new Spot(y, x, this.currentPositionS[y][x].getTool()));
 
             for (BoardListener ml:this.boardListener) {
