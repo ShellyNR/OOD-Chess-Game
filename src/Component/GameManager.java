@@ -1,15 +1,15 @@
 package Component;
 
-import BoardUI.*;
+import BoardUI.UIBoard;
+import BoardUI.UIBoardGUI;
 import Game.*;
-
 
 import java.util.Hashtable;
 
-public class GameManager {
+public class GameManager implements MenuListener {
 
 
-//    private List<Game> listGamesOptions;
+    //private List<Game> listGamesOptions;
     private Hashtable<String, Game> listGamesOptions;
     private UIGameMenu UIGameManager;
     private UIBoard UIb;
@@ -25,10 +25,6 @@ public class GameManager {
         return listGamesOptions;
     }
 
-
-    public void ShowOptionsAndList(boolean white){
-
-    }
 
     public void createGame(){
         this.UIGameManager.show(this.listGamesOptions.keySet());
@@ -48,18 +44,19 @@ public class GameManager {
         // choose which games will appear in the menu.
         // different games can have different UI for board!
         Hashtable<String, Game> listGamesOptions = new Hashtable<String, Game>();
-        Game quizGame =  new QuizGame();
-        Game regularGame =  new RegularGame();
-        Game watchGame =  new WatchGame();
+        Game quizGame =  QuizGame.QuizGame();
+        Game regularGame =  RegularGame.RegularGame();
+        Game gameTest =  GameTest.GameTest();
+        Game watchGame =  WatchGame.WatchGame();
 
-        listGamesOptions.put(quizGame.toString(), quizGame);
-        listGamesOptions.put(regularGame.toString(), regularGame);
-        listGamesOptions.put(watchGame.toString(), watchGame);
+        listGamesOptions.put("Quiz Game", quizGame);
+        listGamesOptions.put("Regular Game", regularGame);
+        listGamesOptions.put("Game Test", gameTest);
+        listGamesOptions.put("Watch Game", watchGame);
 
         UIGameMenu UIGameManager = new UIGameMenuJFrame();
         GameManager GM = new GameManager(UIGameManager, listGamesOptions, UIBoardGame);
         GM.createGame();
     }
-
 
 }
