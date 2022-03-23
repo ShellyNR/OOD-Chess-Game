@@ -8,13 +8,13 @@ import javax.swing.*;
 import javax.swing.border.*;
 import java.net.URL;
 import java.util.*;
-import java.util.List;
 import javax.imageio.ImageIO;
 import Component.*;
 import Game.*;
+import ListenerToBoard.BoardNotifier;
 import Tools.*;
 
-public class UIBoardGUI extends JFrame implements UIBoard, MouseListener {
+public class UIBoardGUI extends JFrame implements UIBoard {
 
     private final JPanel gui = new JPanel(new BorderLayout(3, 3));
     private JButton[][] chessBoardSquares = new JButton[8][8];
@@ -23,17 +23,15 @@ public class UIBoardGUI extends JFrame implements UIBoard, MouseListener {
     private final JLabel message = new JLabel(
             "Chess Champ is ready to play!");
     private Spot[][] currentPositionS;
-    private Spot[][] pastPositionS;
     private static final String COLS = "ABCDEFGH";
     public Hashtable<String, Integer> map;
     public Move currentMove;
-    private List<BoardListener> boardListener;
-    private int count = 0;
+    private BoardNotifier notifier;
+    HashMap<EnumTool, Tool> c = common.getInstance();
 
     public static final int BLACK = 0, WHITE = 1;
 
     public UIBoardGUI() {
-        this.boardListener =  new ArrayList<>();
 
         this.map = new Hashtable<String, Integer>() {{
             put("Queen", 0);
@@ -46,12 +44,20 @@ public class UIBoardGUI extends JFrame implements UIBoard, MouseListener {
 
     }
 
-    private int n = 0;
+    @Override
+    public void show(Move move) {
+        this.currentMove = move;
+        this.setupGame();
+    }
 
     @Override
-    public void show(Spot[][] currentPosition) {
-        this.currentPositionS = currentPosition;
-        this.setupGame();
+    public void start(Spot[][] startPosition) {
+        this.currentPositionS = startPosition;
+        this.setupNewGame();
+    }
+
+    public final JComponent getGui() {
+        return gui;
     }
 
     public final void initialize() {
@@ -84,12 +90,11 @@ public class UIBoardGUI extends JFrame implements UIBoard, MouseListener {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                setupNewGame();
+                updateNewGame();
             }
         };
 
         tools.add(newGameAction);
-        tools.add(new JButton("Restore")); // TODO - add functionality!
         tools.add(message);
 
         gui.add(new JLabel("?"), BorderLayout.LINE_START);
@@ -188,14 +193,12 @@ public class UIBoardGUI extends JFrame implements UIBoard, MouseListener {
         }
     }
 
-    public final JComponent getGui() {
-        return gui;
+    // when the user asks to start a new game - notify the listeners and call setupNewGame
+    private void updateNewGame() {
+        this.notifier.NotifyNewBoard();
+        this.setupNewGame();
     }
 
-    @Override
-    public void addBoardListener(BoardListener ml) {
-        this.boardListener.add(ml);
-    }
 
     private final void createImages() {
         try {
@@ -213,19 +216,32 @@ public class UIBoardGUI extends JFrame implements UIBoard, MouseListener {
         }
     }
 
-    /**
-     * Initializes the icons of the initial chess board piece places
-     */
+
+    // set the component that will get data from the user
+    @Override
+    public void setNotifier(BoardNotifier notifier) {
+        this.notifier = notifier;
+    }
+
+    // set the components that will be notified with data from the user
+    @Override
+    public void addBoardListener(BoardListener ml) {
+        this.notifier.addBoardListener(ml);
+    }
+
+    //Initializes the icons of the initial chess board piece places
+
     private final void setupNewGame() {
         message.setText("Make your move!");
         // set up the black pieces
         for (int i = 0; i < currentPositionS.length; i++) {
             for (int j = 0; j < currentPositionS.length; j++) {
-                //set the listener
-                chessBoardSquares[i][j].addMouseListener(this);
+                //set the listener - the notifier listens to each JButton
+                chessBoardSquares[i][j] = (JButton)this.notifier.addBoardNotifier(chessBoardSquares[i][j]);
 
                 Tool tool = this.currentPositionS[i][j].getTool();
                 if (tool.toString().equals("Empty")) {
+                    chessBoardSquares[j][i].setIcon(null);
                     continue;
                 }
                 if (this.currentPositionS[i][j].getTool().isWhite() == true) {
@@ -238,14 +254,17 @@ public class UIBoardGUI extends JFrame implements UIBoard, MouseListener {
                 chessBoardSquares[j][i].setName(tool.toString());
             }
         }
-        //this.pastPositionS = this.currentPositionS.clone();
     }
+
+    // rearrange the game according to move, and update chessBoardSquares
     private final void setupGame(){
         if (this.currentMove == null) return;
         int x = this.currentMove.getStart().getY();
         int y = this.currentMove.getStart().getX();
         Tool tool = this.currentMove.getStart().getTool();
         chessBoardSquares[x][y].setIcon(null);
+        this.currentPositionS[y][x].setTool(c.get(EnumTool.Empty));
+
         int xe = this.currentMove.getEnd().getY();
         int ye = this.currentMove.getEnd().getX();
         if (this.currentMove.getStart().getTool().isWhite() == true) {
@@ -256,64 +275,7 @@ public class UIBoardGUI extends JFrame implements UIBoard, MouseListener {
                     chessPieceImages[BLACK][this.map.get(tool.toString())]));
         }
         chessBoardSquares[xe][ye].setName(tool.toString());
+        this.currentPositionS[ye][xe].setTool(tool);
     }
 
-    private JButton chessPiece;
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    private long lastclick;
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        if(System.currentTimeMillis() < lastclick + 20) return;
-        lastclick = System.currentTimeMillis();
-        if (this.count == 0) {
-            chessPiece = null;
-            Component c = e.getComponent();
-            if (!(c instanceof JButton)) return;
-            chessPiece = (JButton) c;
-            int w=chessPiece.getSize().width;
-            int h=chessPiece.getSize().height;
-            int x = chessPiece.getX() / w - 1;
-            int y = chessPiece.getY() / h - 1;
-
-            this.currentMove = new Move(new Spot(y, x, this.currentPositionS[y][x].getTool()));
-            this.count = 1;
-        } else if (this.count == 1) {
-            if (chessPiece == null) return;
-            Component c = e.getComponent();
-            chessPiece = (JButton) c;
-            int w=chessPiece.getSize().width;
-            int h=chessPiece.getSize().height;
-            int x = chessPiece.getX() / w - 1;
-            int y = chessPiece.getY() / h - 1;
-            this.currentMove.setEnd(new Spot(y, x, this.currentPositionS[y][x].getTool()));
-
-            for (BoardListener ml:this.boardListener) {
-                ml.notify(this.currentMove);
-            }
-            chessPiece = null;
-            this.count = 0;
-        }
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
 }
