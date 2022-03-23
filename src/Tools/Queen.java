@@ -20,4 +20,9 @@ public class Queen extends Tool  {
     public EnumTool getType() {
         return this.isWhite()? EnumTool.QueenW : EnumTool.QueenB;
     }
+
+    @Override
+    public String toString() {
+        return "Queen";
+    }
 }

@@ -20,4 +20,9 @@ public class Bishop extends Tool {
     public EnumTool getType() {
         return this.isWhite()? EnumTool.BishopW : EnumTool.BishopB;
     }
+
+    @Override
+    public String toString() {
+        return "Bishop";
+    }
 }

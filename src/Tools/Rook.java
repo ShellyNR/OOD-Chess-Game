@@ -21,5 +21,10 @@ public class Rook extends Tool{
         return this.isWhite()? EnumTool.RookW : EnumTool.RookB;
     }
 
+    @Override
+    public String toString() {
+        return "Rook";
+    }
+
 
 }

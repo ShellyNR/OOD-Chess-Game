@@ -47,4 +47,9 @@ public class Pawn extends Tool {
     public EnumTool getType() {
         return this.isWhite()? EnumTool.PawnW : EnumTool.PawnB;
     }
+
+    @Override
+    public String toString() {
+        return "Pawn";
+    }
 }

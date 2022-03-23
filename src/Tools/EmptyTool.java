@@ -19,4 +19,9 @@ public class EmptyTool extends Tool {
     public EnumTool getType() {
         return EnumTool.Empty;
     }
+
+    @Override
+    public String toString() {
+        return "Empty";
+    }
 }

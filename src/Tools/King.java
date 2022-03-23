@@ -24,4 +24,9 @@ public class King extends Tool {
     public EnumTool getType() {
         return this.isWhite()? EnumTool.KingW : EnumTool.KingB;
     }
+
+    @Override
+    public String toString() {
+        return "King";
+    }
 }
