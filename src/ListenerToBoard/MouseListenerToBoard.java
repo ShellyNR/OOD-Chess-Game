@@ -78,12 +78,6 @@ public class MouseListenerToBoard implements MouseListener, BoardNotifier {
         }
     }
 
-    @Override
-    public void NotifyNewMove(Move move) {
-        for (BoardListener ml:this.boardListener) {
-            ml.notify(move);
-        }
-    }
 
     @Override
     public void mousePressed(MouseEvent e) {
