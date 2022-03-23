@@ -161,9 +161,9 @@ public class Board {
 
         // initialize remaining spots without any piece
         for (int i = 2; i < LENGTH - 2; i++) {
-                for (int j = 0; j < LENGTH; j++) {
-                    board[i][j] = new Spot(i, j, c.get(EnumTool.Empty));
-                }
+            for (int j = 0; j < LENGTH; j++) {
+                board[i][j] = new Spot(i, j, c.get(EnumTool.Empty));
+            }
         }
         return board;
     }

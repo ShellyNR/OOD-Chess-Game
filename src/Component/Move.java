@@ -2,9 +2,9 @@ package Component;
 
 public class Move {
 
-//    private Player player;
-    private Spot start;
-    private Spot end;
+    //    private Player player;
+    private Spot start = null;
+    private Spot end = null;
 
     private boolean castlingMove = false;
 
@@ -16,8 +16,16 @@ public class Move {
         return end;
     }
 
+    public Move(Spot start) {
+        this.start = start;
+    }
+
     public Move(Spot start, Spot end) {
         this.start = start;
+        this.end = end;
+    }
+
+    public void setEnd(Spot end) {
         this.end = end;
     }
 

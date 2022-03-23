@@ -44,4 +44,7 @@ public class Spot {
         return (this.x == other.x && this.y == other.y && this.tool == other.tool);
     }
 
+    public void setTool(Tool tool) {
+        this.tool = tool;
+    }
 }
