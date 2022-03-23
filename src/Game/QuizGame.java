@@ -2,7 +2,7 @@ package Game;
 
 import BoardUI.UIBoard;
 import Component.Board;
-import GameHandler.GameHandler;
+import GameHandler.*;
 import Player.*;
 import Quiz.*;
 
@@ -10,10 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+
 public class QuizGame implements Game{
 
     private UIBoard UIb;
-    private GameHandler gameHendler;
+    private GameHandler gameHandler;
     private List<Player> playersList;
     private List<Quiz> quizzesList;
     private Quiz chosenQuize;
@@ -35,7 +36,7 @@ public class QuizGame implements Game{
         playersList.add(new ComputerPlayer(false, this.chosenQuize.getComputerMovesForSolveQuiz())); //computer
 
         this.playersList = playersList;
-        //this.gameHendler = new QuizGameHandler(this.playersList,this.initBoard,this.chosenQuize.isPlayerStart());
+        this.gameHandler = new SimpleGameHandler(this.initBoard,this.playersList,this.chosenQuize.isPlayerStart());
 
     }
 
@@ -71,6 +72,6 @@ public class QuizGame implements Game{
     }
 
     public void runGame() {
-        this.gameHendler.handleGame();
+        //this.gameHandler.handleGame();
     }
 }

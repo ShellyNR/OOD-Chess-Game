@@ -2,8 +2,7 @@ package Game;
 
 import BoardUI.UIBoard;
 import Component.Board;
-import GameHandler.GameHandler;
-import GameHandler.RegularGameHandler;
+import GameHandler.*;
 import Player.*;
 
 import java.util.ArrayList;
@@ -24,7 +23,7 @@ public class GameTest implements Game{
         this.playersList = playersList;
 
         this.initBoard = new Board(); // create defualt board
-        this.gameHandler = new RegularGameHandler(this.playersList,this.initBoard);
+        this.gameHandler = new SimpleGameHandler(this.initBoard,this.playersList, true);
     }
 
     public static GameTest GameTest()

@@ -13,49 +13,57 @@ import java.util.Random;
 public class WatchGame implements Game {
 
 
-    private GameHandler gameHendler;
+    private GameHandler gameHandler;
     private List<Player> playersList;
     private List<FamousPlay> watchList;
     private FamousPlay chosenPlay;
     private Board initBoard;
     private UIBoard UIb;
+    private static WatchGame single_instance = null;
 
 
-    public WatchGame() {
-        this.watchList = setWatchList();
-        this.chosenPlay = generatePlay();
-        this.initBoard = new Board(this.chosenPlay.getInitState()); // create default board
-        this.playersList = createPlayersList();
-        this.gameHendler = new WatchGameHandler(this.playersList,this.initBoard,this.chosenPlay.isAPlayerStart());
-
-    }
-
-    public List<FamousPlay> setWatchList() {
+    private WatchGame() {
         List<FamousPlay> listP = new ArrayList<>();
         listP.add(new PlayA());
-        return listP;
+        this.watchList = listP;
+        this.chosenPlay = generatePlay();
+        this.initBoard = new Board(this.chosenPlay.getInitState()); // create default board
 
+        List<Player> playersList = new ArrayList<>();
+        playersList.add(new ComputerPlayer(true,this.chosenPlay.getAPlayerMovesForSolveQuiz()));
+        playersList.add(new ComputerPlayer(false, this.chosenPlay.getBPlayerMovesForSolveQuiz()));
+        this.playersList = playersList;
+        this.gameHandler = new WatchGameHandler(this.playersList,this.initBoard,this.chosenPlay.isAPlayerStart());
     }
 
-    public FamousPlay generatePlay(){
+    public static WatchGame WatchGame(){
+        // To ensure only one instance is created
+        if (single_instance == null) {
+            single_instance = new WatchGame();
+        }
+        return single_instance;
+    }
+
+    private FamousPlay generatePlay(){
         Random ran = new Random();
+        int index = 0;
 
         // Returns number between 0 to (list_size-1)
-        int index = ran.nextInt(this.watchList.size() - 1);
+        if (this.watchList.size() > 1) {
+            index = ran.nextInt(this.watchList.size() - 1);
+        }
         return this.watchList.get(index);
-
     }
+
 
     @Override
     public void setUIBoard(UIBoard UIB) {
 
     }
 
-    public List<Player> createPlayersList() {
-        List<Player> playersList = new ArrayList<>();
-        playersList.add(new ComputerPlayer(true,this.chosenPlay.getAPlayerMovesForSolveQuiz()));
-        playersList.add(new ComputerPlayer(false, this.chosenPlay.getBPlayerMovesForSolveQuiz()));
-        return playersList;
+    @Override
+    public List<Player> getPlayersList() {
+        return this.playersList;
     }
 
     public String toString(){
@@ -63,7 +71,7 @@ public class WatchGame implements Game {
     }
 
     public void runGame() {
-        this.gameHendler.handleGame();
+        //this.gameHandler.handleGame();
     }
 
 

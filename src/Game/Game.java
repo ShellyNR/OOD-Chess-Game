@@ -6,7 +6,7 @@ import Player.*;
 import java.util.List;
 
 
-public interface Game{
+public interface Game {
 
     public void setUIBoard(UIBoard UIB);
 
