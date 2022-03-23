@@ -14,7 +14,4 @@ public interface BoardNotifier {
 
     // notify listeners when the user asks for a new game
     public void NotifyNewBoard();
-
-    // notify the listeners whan the user makes a move on the board
-    public void NotifyNewMove(Move move);
 }
