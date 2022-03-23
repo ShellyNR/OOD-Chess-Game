@@ -6,7 +6,7 @@ import Player.Player;
 
 import java.util.List;
 
-public class WatchGameHandler extends GameHandler{
+public class WatchGameHandler extends GameHandler {
 
     // first(White) - human, sec - computer
     public WatchGameHandler(List<Player> playersList, Board initBoard, boolean isFirstStart) {
@@ -32,9 +32,9 @@ public class WatchGameHandler extends GameHandler{
 
 
     @Override
-    public void handleGame() {
+    public void handleGame(Move move) {
         while (this.getTurn() != -1){
-            Move move = this.getPlayersList().get(this.getTurn()).getNextMove();
+            //Move move = this.getPlayersList().get(this.getTurn()).getNextMove();
             moveValidation(move);
         }
         haveAWinner();

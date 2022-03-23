@@ -27,6 +27,10 @@ public abstract class GameHandler {
         this.status = GameStatus.ACTIVE;
     }
 
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+
 
     public boolean haveAWinner(){
         // white
@@ -109,9 +113,9 @@ public abstract class GameHandler {
         }
 
         // "change" tool in during the move
-        if (move.getStart().getTool() != move.getEnd().getTool()){
-                return false;
-        }
+        //if (move.getStart().getTool() != move.getEnd().getTool()){
+        //        return false;
+        //}
 
         // end is not an empty spot
         // end's tool can't have the same color tool as start's tool
@@ -126,7 +130,15 @@ public abstract class GameHandler {
         }
 
 
-        if (!((move.getStart().getTool().isKnight() || this.board.isFreeBetween(move)) && willKingbeUnderThreat(move) && move.getStart().getTool().canMove(move))){
+        if (!((move.getStart().getTool().isKnight() || this.board.isFreeBetween(move)))){
+            return false;
+        }
+
+        if (willKingbeUnderThreat(move)){
+            return false;
+        }
+
+        if (move.getStart().getTool().canMove(move)){
             return false;
         }
 
@@ -140,17 +152,18 @@ public abstract class GameHandler {
         return checkMove(move);
     }
 
-    public void handleGame(){
-        while(!haveAWinner()){
-            Move move = getPlayerTurn(this.turn).getNextMove();
+    public void handleGame(Move move){
+        if(!haveAWinner()){
+            //Move move = getPlayerTurn(this.turn).getNextMove();
             if(moveValidation(move)){
                 board.updateBoardByMove(move);
                 updateTurn();
             }else{
                 System.out.println("Wrong Move, try again");
             }
+        } else {
+            declareWinner();
         }
-        declareWinner();
     }
 
     public void declareWinner(){
