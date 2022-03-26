@@ -4,22 +4,18 @@ import Component.Move;
 
 import java.util.List;
 
-public class HumanForQuizPlayer extends HumanPlayer{
+public class HumanForQuizPlayer implements PlayerType{
 
     private List<Move> moveList;
     private int moveIndex;
 
-    public HumanForQuizPlayer(boolean isWhiteSide,  List<Move> moveList) {
-        super(isWhiteSide);
+    public HumanForQuizPlayer(List<Move> moveList) {
         this.moveList = moveList;
         this.moveIndex = 0;
     }
 
-
     @Override
-    public Move getNextMove() {
-        Move moveFromUI = super.getNextMove();
-
+    public Move getNextMove(Move moveFromUI) {
         if (this.moveIndex == -1) {
             return null; // finish game, no more moves left
         }

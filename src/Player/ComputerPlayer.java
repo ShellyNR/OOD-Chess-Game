@@ -4,21 +4,20 @@ import Component.Move;
 
 import java.util.List;
 
-public class ComputerPlayer extends Player {
+public class ComputerPlayer implements PlayerType {
 
     private List<Move> moveList;
     private int moveIndex;
 
 
-    public ComputerPlayer(boolean isWhiteSide, List<Move> moveList)
+    public ComputerPlayer(List<Move> moveList)
     {
-        super(isWhiteSide, false);
         this.moveList = moveList;
         this.moveIndex = 0;
     }
 
     @Override
-    public Move getNextMove() {
+    public Move getNextMove(Move m) {
         if (this.moveIndex == -1) {
             return null; // finish game, no more moves left
         }
