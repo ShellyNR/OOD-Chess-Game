@@ -17,6 +17,7 @@ public class Player {
     public Player(boolean isWhite, boolean isHumanPlayer) {
         this.isWhite = isWhite;
         this.isHumanPlayer = isHumanPlayer;
+        this.playerType = null;
     }
 
     public boolean isWhite()
@@ -28,6 +29,9 @@ public class Player {
         return this.isHumanPlayer;
     }
     public Move getNextMove(Move move){
+        if(this.playerType == null){
+            return move;
+        }
         return playerType.getNextMove(move);
     }
 
