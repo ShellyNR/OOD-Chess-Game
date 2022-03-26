@@ -2,9 +2,12 @@ package FamousPlay;
 
 import Component.Move;
 import Component.Spot;
+import Tools.EnumTool;
+import Tools.Tool;
 import Tools.common;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class PlayA implements FamousPlay{
@@ -15,6 +18,7 @@ public class PlayA implements FamousPlay{
     private List<Move> BPlayerMovesForSolveQuiz;
     private boolean isAPlayerStart;
     private boolean isAPlayerWhite;
+    HashMap<EnumTool, Tool> c = common.getInstance();
 
     public PlayA() {
         this.initState = setInitState();
@@ -45,19 +49,19 @@ public class PlayA implements FamousPlay{
     @Override
     public List<Move> setAPlayerMovesForSolveQuiz() {
         List<Move> moveList = new ArrayList<>();
-        moveList.add(new Move(new Spot(6,4, common.toolsCache.get("PawnW")),new Spot(4,4, common.toolsCache.get("PawnW"))));
-        moveList.add(new Move(new Spot(7,6, common.toolsCache.get("KnightW")),new Spot(5,5, common.toolsCache.get("KnightW"))));
-        moveList.add(new Move(new Spot(7,1, common.toolsCache.get("KnightW")),new Spot(5,2, common.toolsCache.get("KnightW"))));
-        moveList.add(new Move(new Spot(5,5, common.toolsCache.get("KnightW")),new Spot(3,4, common.toolsCache.get("KnightW"))));
+        moveList.add(new Move(new Spot(6,4, c.get(EnumTool.PawnW)),new Spot(4,4, c.get((EnumTool.Empty)))));
+        moveList.add(new Move(new Spot(7,6, c.get(EnumTool.KnightW)),new Spot(5,5, c.get(EnumTool.Empty))));
+        moveList.add(new Move(new Spot(7,1, c.get(EnumTool.KnightW)),new Spot(5,2, c.get(EnumTool.Empty))));
+        moveList.add(new Move(new Spot(5,5, c.get(EnumTool.KnightW)),new Spot(3,4, c.get(EnumTool.PawnB))));
         return moveList;
     }
 
     @Override
     public List<Move> setBPlayerMovesForSolveQuiz() {
         List<Move> moveList = new ArrayList<>();
-        moveList.add(new Move(new Spot(1,4, common.toolsCache.get("PawnB")),new Spot(3,4, common.toolsCache.get("PawnB"))));
-        moveList.add(new Move(new Spot(0,1, common.toolsCache.get("BishopB")),new Spot(2,2, common.toolsCache.get("BishopB"))));
-        moveList.add(new Move(new Spot(0,6, common.toolsCache.get("BishopB")),new Spot(2,5, common.toolsCache.get("BishopB"))));
+        moveList.add(new Move(new Spot(1,4, c.get(EnumTool.PawnB)),new Spot(3,4, c.get(EnumTool.Empty))));
+        moveList.add(new Move(new Spot(0,1, c.get(EnumTool.KnightB)),new Spot(2,2, c.get(EnumTool.Empty))));
+        moveList.add(new Move(new Spot(0,6, c.get(EnumTool.KnightB)),new Spot(2,5, c.get(EnumTool.Empty))));
         return moveList;
     }
 
