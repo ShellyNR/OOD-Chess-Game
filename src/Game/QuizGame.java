@@ -32,8 +32,8 @@ public class QuizGame implements Game{
         this.initBoard = new Board(this.chosenQuize.getInitState());
 
         List<Player> playersList = new ArrayList<>();
-        playersList.add(new HumanForQuizPlayer(true,this.chosenQuize.getPlayerMovesForSolveQuiz())); //player
-        playersList.add(new ComputerPlayer(false, this.chosenQuize.getComputerMovesForSolveQuiz())); //computer
+        playersList.add(new Player(true,true, new HumanForQuizPlayer(this.chosenQuize.getPlayerMovesForSolveQuiz()))); //player
+        playersList.add(new Player(false, false, new ComputerPlayer(this.chosenQuize.getComputerMovesForSolveQuiz()))); //computer
 
         this.playersList = playersList;
         this.gameHandler = new SimpleGameHandler(this.initBoard,this.playersList,this.chosenQuize.isPlayerStart());

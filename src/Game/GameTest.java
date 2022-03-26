@@ -18,8 +18,8 @@ public class GameTest implements Game{
 
     private GameTest(){
         List<Player> playersList = new ArrayList<>();
-        playersList.add(new HumanPlayer(true));
-        playersList.add(new HumanPlayer(false));
+        playersList.add(new Player(true,true));
+        playersList.add(new Player(false, true));
         this.playersList = playersList;
 
         this.initBoard = new Board(); // create defualt board

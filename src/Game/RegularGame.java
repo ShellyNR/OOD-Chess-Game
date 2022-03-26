@@ -21,10 +21,8 @@ public class RegularGame implements Game, BoardListener{
 
     private RegularGame(){
         List<Player> playersList = new ArrayList<>();
-        playersList.add(new HumanPlayer(true));
-        playersList.add(new HumanPlayer(false));
-        this.playersList = playersList;
-
+        playersList.add(new Player(true, true));
+        playersList.add(new Player(false,true));
         this.playersList = playersList;
 
         this.gameHandler = new SimpleGameHandler(this.initBoard,this.playersList,true);

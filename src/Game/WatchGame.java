@@ -2,7 +2,8 @@ package Game;
 
 import BoardUI.UIBoard;
 import Component.Board;
-import FamousPlay.*;
+import FamousPlay.FamousPlay;
+import FamousPlay.PlayA;
 import GameHandler.*;
 import Player.*;
 
@@ -30,8 +31,8 @@ public class WatchGame implements Game {
         this.initBoard = new Board(this.chosenPlay.getInitState()); // create default board
 
         List<Player> playersList = new ArrayList<>();
-        playersList.add(new ComputerPlayer(true,this.chosenPlay.getAPlayerMovesForSolveQuiz()));
-        playersList.add(new ComputerPlayer(false, this.chosenPlay.getBPlayerMovesForSolveQuiz()));
+        playersList.add(new Player(true,false,new ComputerPlayer(this.chosenPlay.getAPlayerMovesForSolveQuiz())));
+        playersList.add(new Player(false,false, new ComputerPlayer(this.chosenPlay.getBPlayerMovesForSolveQuiz())));
         this.playersList = playersList;
         this.gameHandler = new WatchGameHandler(this.playersList,this.initBoard,this.chosenPlay.isAPlayerStart());
     }
