@@ -31,7 +31,6 @@ public abstract class GameHandler {
         this.board = board;
     }
 
-
     public boolean haveAWinner(){
         // white
         Spot kingSpotW = board.getKingSpotByColor(true);
