@@ -32,11 +32,13 @@ public class Pawn extends Tool {
         int x2 = move.getEnd().getX();
         int y2 = move.getEnd().getY();
 
-        if (x1 == x2 && (y2 == y1 + direction || ((y2 == y1 + direction*2) && canMoveTwice))) {
+        // walk
+        if (y1 == y2 && ((x2 == x1 + direction) || ((x2 == x1 + direction*2) && canMoveTwice))) {
             return  move.getEnd().isEmpty();
         }
 
-        if (y2 == y1 + direction && (x2 == x1 + 1 || x2 == x1 - 1)) {
+        // "kill"
+        if (x2 == x1 + direction && (y2 == y1 + 1 || y2 == y1 - 1)) {
             return (!move.getEnd().isEmpty()) && move.getStart().getTool().isWhite() != move.getEnd().getTool().isWhite();
         }
 
