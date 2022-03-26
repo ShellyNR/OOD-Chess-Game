@@ -152,10 +152,10 @@ public abstract class GameHandler {
         return checkMove(move);
     }
 
-    public void handleGame(Move move){
+    public void handleGame(Move m){
         if(!haveAWinner()){
-            //Move move = getPlayerTurn(this.turn).getNextMove();
-            if(moveValidation(move)){
+            Move move = getPlayerTurn(this.turn).getNextMove(m);
+            if(move != null && moveValidation(move)){
                 board.updateBoardByMove(move);
                 updateTurn();
             }else{
