@@ -127,7 +127,7 @@ public abstract class GameHandler {
 
 
         if (!((move.getStart().getTool().isKnight() || this.board.isFreeBetween(move)) &&
-                willKingbeUnderThreat(move) && move.getStart().getTool().canMove(move))) {
+                !willKingbeUnderThreat(move) && move.getStart().getTool().canMove(move))) {
             return false;
         }
 
