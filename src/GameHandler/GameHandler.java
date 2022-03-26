@@ -112,11 +112,6 @@ public abstract class GameHandler {
                 return false;
         }
 
-        // "change" tool in during the move
-        //if (move.getStart().getTool() != move.getEnd().getTool()){
-        //        return false;
-        //}
-
         // end is not an empty spot
         // end's tool can't have the same color tool as start's tool
         if (! move.getEnd().isEmpty()) {
@@ -130,15 +125,9 @@ public abstract class GameHandler {
         }
 
 
-        if (!((move.getStart().getTool().isKnight() || this.board.isFreeBetween(move)))){
-            return false;
-        }
 
-        if (willKingbeUnderThreat(move)){
-            return false;
-        }
-
-        if (move.getStart().getTool().canMove(move)){
+        if (!((move.getStart().getTool().isKnight() || this.board.isFreeBetween(move)) &&
+                willKingbeUnderThreat(move) && move.getStart().getTool().canMove(move))) {
             return false;
         }
 
