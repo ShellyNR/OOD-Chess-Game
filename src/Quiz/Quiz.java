@@ -1,7 +1,11 @@
 package Quiz;
 
 import Component.Move;
+import Tools.EnumTool;
+import Tools.Tool;
+import Tools.common;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface Quiz {
@@ -15,5 +19,6 @@ public interface Quiz {
     public boolean isPlayerStart();
     public boolean isPlayerWhite();
     public String toString();
+
 
 }

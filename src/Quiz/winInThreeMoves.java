@@ -3,9 +3,11 @@ package Quiz;
 import Component.Move;
 import Component.Spot;
 import Tools.EnumTool;
+import Tools.Tool;
 import Tools.common;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class winInThreeMoves implements Quiz{
@@ -15,6 +17,8 @@ public class winInThreeMoves implements Quiz{
     private List<Move> ComputerMovesForSolveQuiz;
     private boolean isPlayerStart;
     private boolean isPlayerWhite;
+    HashMap<EnumTool, Tool> c = common.getInstance();
+
 
     public winInThreeMoves() {
         this.initState = setInitState();
@@ -61,17 +65,17 @@ public class winInThreeMoves implements Quiz{
     @Override
     public List<Move> setPlayerMovesForSolveQuiz() {
         List<Move> moveList = new ArrayList<>();
-        moveList.add(new Move(new Spot(1,2, common.toolsCache.get("QueenW")),new Spot(1,5, common.toolsCache.get("QueenW"))));
-        moveList.add(new Move(new Spot(1,5, common.toolsCache.get("QueenW")),new Spot(2,5, common.toolsCache.get("QueenW"))));
-        moveList.add(new Move(new Spot(7,0, common.toolsCache.get("BishopW")),new Spot(2,5, common.toolsCache.get("BishopW"))));
+        moveList.add(new Move(new Spot(1,2, c.get(EnumTool.QueenW)),new Spot(1,5, c.get(EnumTool.PawnB))));
+        moveList.add(new Move(new Spot(1,5, c.get(EnumTool.QueenW)),new Spot(2,5, c.get(EnumTool.Empty))));
+        moveList.add(new Move(new Spot(7,0, c.get(EnumTool.BishopW)),new Spot(2,5, c.get(EnumTool.BishopB))));
         return moveList;
     }
 
     @Override
     public List<Move> setComputerMovesForSolveQuiz() {
         List<Move> moveList = new ArrayList<>();
-        moveList.add(new Move(new Spot(0,6, common.toolsCache.get(EnumTool.KingB)),new Spot(0,7, common.toolsCache.get(EnumTool.KingB))));
-        moveList.add(new Move(new Spot(4,3, common.toolsCache.get(EnumTool.BishopB)),new Spot(2,5, common.toolsCache.get(EnumTool.BishopB))));
+        moveList.add(new Move(new Spot(0,6, c.get(EnumTool.KingB)),new Spot(0,7, c.get(EnumTool.Empty))));
+        moveList.add(new Move(new Spot(4,3, c.get(EnumTool.BishopB)),new Spot(2,5, c.get(EnumTool.QueenW))));
         return moveList;
     }
 

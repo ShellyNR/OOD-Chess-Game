@@ -2,9 +2,12 @@ package Quiz;
 
 import Component.Move;
 import Component.Spot;
+import Tools.EnumTool;
+import Tools.Tool;
 import Tools.common;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class learnHowBishopEat implements Quiz {
@@ -14,6 +17,8 @@ public class learnHowBishopEat implements Quiz {
     private List<Move> ComputerMovesForSolveQuiz;
     private boolean isPlayerStart;
     private boolean isPlayerWhite;
+    HashMap<EnumTool, Tool> c = common.getInstance();
+
 
     public learnHowBishopEat() {
         this.initState = setInitState();
@@ -63,14 +68,14 @@ public class learnHowBishopEat implements Quiz {
 
     public List<Move> setPlayerMovesForSolveQuiz(){
         List<Move> moveList = new ArrayList<>();
-        moveList.add(new Move(new Spot(4,2, common.toolsCache.get("BishopW")),new Spot(3,3, common.toolsCache.get("BishopW"))));
-        moveList.add(new Move(new Spot(3,3, common.toolsCache.get("BishopW")),new Spot(2,4, common.toolsCache.get("BishopW"))));
+        moveList.add(new Move(new Spot(4,2, c.get(EnumTool.BishopW)),new Spot(3,3, c.get(EnumTool.KingB))));
+        moveList.add(new Move(new Spot(3,3, c.get(EnumTool.BishopW)),new Spot(2,4, c.get(EnumTool.BishopB))));
         return moveList;
     }
 
     public List<Move> setComputerMovesForSolveQuiz(){
         List<Move> moveList = new ArrayList<>();
-        moveList.add(new Move(new Spot(0,2, common.toolsCache.get("BishopB")),new Spot(2,4, common.toolsCache.get("BishopB"))));
+        moveList.add(new Move(new Spot(0,2, c.get(EnumTool.BishopB)),new Spot(2,4, c.get(EnumTool.Empty))));
         return moveList;
     }
 
