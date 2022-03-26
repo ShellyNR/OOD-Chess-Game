@@ -16,6 +16,9 @@ public class HumanForQuizPlayer implements PlayerType{
 
     @Override
     public Move getNextMove(Move moveFromUI) {
+        if(moveFromUI == null){
+            return null;
+        }
         if (this.moveIndex == -1) {
             return null; // finish game, no more moves left
         }
