@@ -50,16 +50,22 @@ public class MouseListenerToBoard implements MouseListener, BoardNotifier {
             this.currentMove.setEnd(new Spot(y, x, null));
 
             // notify listeners about the move
-            for (BoardListener ml:this.boardListener) {
-                ml.notify(this.currentMove);
-            }
+            this.updateListenersWithMove();
+
             chessPiece = null;
             this.count = 0;
         }
 
     }
 
-    //@Override
+    @Override
+    public void updateListenersWithMove(){
+        for (BoardListener ml:this.boardListener) {
+            ml.notify(this.currentMove);
+        }
+    }
+
+    @Override
     public void addBoardListener(BoardListener ml) {
         this.boardListener.add(ml);
     }
@@ -77,7 +83,6 @@ public class MouseListenerToBoard implements MouseListener, BoardNotifier {
             ml.notifyNew();
         }
     }
-
 
     @Override
     public void mousePressed(MouseEvent e) {
